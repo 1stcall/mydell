@@ -7,6 +7,8 @@ set -o nounset
 set -o pipefail
 set -o noclobber
 #
+SECONDS=0
+#
 # set some constants used within this script
 #
 LBLUE='\033[0;34m'          # Colour light blue
