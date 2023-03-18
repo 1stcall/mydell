@@ -7,14 +7,24 @@ set -o nounset
 set -o pipefail
 set -o noclobber
 #
-# install script dependencies
+# update apt
 #
 apt update || exit 1
-apt install -y gnupg ebian-archive-keyring apt-transport-https wget
+#
+# remove libre-office
+apt remove --purge --assume-yes libreoffice*
+#
+# install script dependencies
+#
+apt install -y gnupg debian-archive-keyring apt-transport-https wget
 #
 # install sid sources lists
 #
 install -v -D -o root -g root -m 644 sid.list /etc/apt/sources.list
+#
+# upgrade to sid
+apt upgrade -y
+apt dist-upgrade -y
 #
 # install code repo from microsoft
 #
@@ -30,7 +40,15 @@ apt update && apt install -y code-insiders
 # install bash utilities
 #
 apt install -y command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpm qemu-system-x86 \
-  qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools git
+  qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools git fcitx5
+#
+# enable ssh server on boot
+#
+systemctl enable ssh --now
+#
+# update apt-file database for command-not-found
+#
+apt-file update
 #
 # install edi reop from packagecloud
 #
@@ -91,7 +109,7 @@ install_debian_keyring ()
 
 detect_os ()
 {
-  if [[ ( -z "${os}" ) && ( -z "${dist}" ) ]]; then
+  if [[ ( -z "${os+x}" ) && ( -z "${dist+x}" ) ]]; then
     # some systems dont have lsb-release yet have the lsb_release binary and
     # vice-versa
     if [ -e /etc/lsb-release ]; then
@@ -265,3 +283,8 @@ main
 # install edi
 #
 apt install -y edi edi-boot-shim
+#
+# autoremove any unneeded apts
+#
+apt autoremove -y
+
