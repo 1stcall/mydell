@@ -10,7 +10,7 @@ set -o noclobber
 # set some constants used within this script
 #
 LBLUE='\033[0;34m'
-NC   ='\033[0m'
+NC='\033[0m'
 scrptName=$(basename ${0})
 #
 # Basic logging to stderr function
