@@ -29,6 +29,11 @@ apt update || exit 1
 log "Removing libreoffice"
 apt remove --purge --assume-yes libreoffice*
 #
+# autoremove any uneeded apts
+#
+log "Removing apts no longer required"
+apt autoremove -y
+#
 # install script dependencies
 #
 log "Installing script dependencies gnupg debian-archive-keyring apt-transport-https wget"
@@ -312,7 +317,7 @@ main
 #
 apt install -y edi edi-boot-shim
 #
-# autoremove any unneeded apts
+# autoremove any uneeded apts
 #
 apt autoremove -y
 
