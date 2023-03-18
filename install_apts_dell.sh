@@ -13,7 +13,7 @@ SECONDS=0
 #
 LBLUE='\033[0;34m'          # Colour light blue
 NC='\033[0m'                # Reset colour
-VERSION="0.0.12 Dev"
+VERSION="0.0.12dev"
 scriptName=$(basename ${0})  # Script name
 callingUser=$(who am i | awk '{print $1}')
 [[ $scriptName =~ "bash" ]] && scriptName="install_apts_dell.sh"
@@ -30,7 +30,8 @@ log(){
 #
 set -x
 log "Running: $scriptName version: $VERSION  Calling user is: $callingUser"
-read -n 1 -r -s -p $"Press enter to continue...\n"
+read -n 1 -s -r -p "Press any key to continue"
+echo -E "\n"
 set +x
 exit 1
 #
