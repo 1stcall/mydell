@@ -41,7 +41,7 @@ apt-get install -y gnupg debian-archive-keyring apt-transport-https wget 1>/dev/
 #
 # install sid sources lists
 #
-log "Replacing bullseye sources list with sid's"
+log "Replacing bullseye's sources list with sid's"
 #install -v -D -o root -g root -m 644 sid.list /etc/apt/sources.list
 rm -vf /etc/apt/sources.list
 cat <<EOF > /etc/apt/sources.list
