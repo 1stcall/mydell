@@ -43,6 +43,7 @@ apt-get install -y gnupg debian-archive-keyring apt-transport-https wget 1>/dev/
 #
 log "Replacing bullseye sources list with sid\'s"
 #install -v -D -o root -g root -m 644 sid.list /etc/apt/sources.list
+rm -vf /etc/apt/sources.list
 cat <<EOF > /etc/apt/sources.list
 # See https://wiki.debian.org/SourcesList for more information.
 deb http://deb.debian.org/debian sid main contrib non-free non-free-firmware
