@@ -54,7 +54,7 @@ EOF
 #
 log "Running apt-get dist-upgrade to update to sid's packages"
 apt-get update 1>/dev/null
-apt-get dist-upgrade -y 1>/dev/null
+apt-get dist-upgrade -y # 1>/dev/null
 #
 # install code repo from microsoft
 #
