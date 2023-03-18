@@ -13,8 +13,13 @@ SECONDS=0
 #
 LBLUE='\033[0;34m'          # Colour light blue
 NC='\033[0m'                # Reset colour
-scrptName=$(basename ${0})  # Script name
+VERSION="0.0.12 Dev"
+scriptName=$(basename ${0})  # Script name
 callingUser=$(who am i | awk '{print $1}')
+[[ $scriptName =~ "bash" ]] && scriptName="install_apts_dell.sh"
+#
+log "Running: $scriptName.  Calling user is: $callingUser"
+read -n 1 -r -s -p $'Press enter to continue...\n'
 #
 # make apt-get non-interactive
 #
@@ -23,7 +28,7 @@ export DEBIAN_FRONTEND=noninteractive
 # Function for basic logging to stderr
 #
 log(){
-  printf  "${LBLUE}%s:${NC} %s\n" $scrptName "${*}" 1>&2
+  printf  "${LBLUE}%s:${NC} %s\n" $scriptName "${*}" 1>&2
 }
 #
 # update apt
