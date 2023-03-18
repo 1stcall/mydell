@@ -45,10 +45,8 @@ log "Replacing bullseye sources list wi sid"
 install -v -D -o root -g root -m 644 sid.list /etc/apt/sources.list
 #
 # upgrade to sid
-log "Running apt upgrade to update packages"
-apt update && apt upgrade -y
-log "Running dist-upgrade"
-apt dist-upgrade -y
+log "Running apt dist-upgrade to update to sid\'s packages"
+apt update && apt dist-upgrade -y
 #
 # install code repo from microsoft
 #
