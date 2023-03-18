@@ -1,0 +1,2 @@
+192.168.0.16:/srv/shared	 /mnt/shared		nfs	    defaults,vers=4.1,proto=tcp,nofail,_netdev		0	0
+/mnt/shared/scratch			 /home/carl/scratch	none	bind                                            0   0

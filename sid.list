@@ -1,0 +1,3 @@
+# See https://wiki.debian.org/SourcesList for more information.
+deb http://deb.debian.org/debian sid main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian sid main contrib 
