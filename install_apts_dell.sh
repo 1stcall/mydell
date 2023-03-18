@@ -346,7 +346,7 @@ cat <<EOF | tee -a /etc/fstab
 EOF
 log "Mounting mountpoint (mount --all)"
 systemctl daemon-reload
-mount --all
+mount --verbose --all
 #
 # Installing login scripts (~/.bashrc & .bash_aliases)
 #
