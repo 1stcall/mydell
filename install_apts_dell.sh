@@ -60,10 +60,11 @@ apt update && apt install -y code-insiders
 #
 # install bash utilities
 #
-log "installing bash utilities and qemu. command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpm qemu-system-x86"
-log "qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools git fcitx5"
-apt install -y command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpm qemu-system-x86 \
-  qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools git fcitx5
+log "installing utilities (command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpmn fcitx5 git)"
+apt install -y command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpmn fcitx5 git
+#
+log "installing emulation (qemu-system-x86 qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools)"
+apt install -y qemu-system-x86 qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools
 #
 # enable ssh server on boot
 #
