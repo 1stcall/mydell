@@ -290,6 +290,7 @@ main ()
 
   echo -n "Importing packagecloud gpg key... "
   # import the gpg key
+  rm -vf ${gpg_keyring_path}
   curl -fsSL "${gpg_key_url}" | gpg --dearmor > ${gpg_keyring_path}
   # grant 644 permisions to gpg keyring path
   chmod 0644 "${gpg_keyring_path}"
