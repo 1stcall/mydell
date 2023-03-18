@@ -46,7 +46,7 @@ install -v -D -o root -g root -m 644 sid.list /etc/apt/sources.list
 #
 # upgrade to sid
 log "Running apt upgrade to update packages"
-apt upgrade -y
+apt update && apt upgrade -y
 log "Running dist-upgrade"
 apt dist-upgrade -y
 #
@@ -66,7 +66,7 @@ apt update && apt install -y code-insiders
 # install bash utilities
 #
 log "installing utilities (command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpmn fcitx5 git)"
-apt install -y command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpmn fcitx5 git
+apt install -y command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpm fcitx5 git
 #
 log "installing emulation (qemu-system-x86 qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools)"
 apt install -y qemu-system-x86 qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools
