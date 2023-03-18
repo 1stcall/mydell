@@ -14,6 +14,7 @@ SECONDS=0
 LBLUE='\033[0;34m'          # Colour light blue
 NC='\033[0m'                # Reset colour
 scrptName=$(basename ${0})  # Script name
+callingUser=$(who am i | awk '{print $1}')
 #
 # make apt-get non-interactive
 #
@@ -339,7 +340,7 @@ apt-get autoremove -y
 # Add /mnt/shared to fstab and mount.
 #
 log "Creating mountpoint for shared files and adding it to fstab (/mnt/shared/)"
-mkdir -vp /mnt/shared/scratch /home/$USER/scratch
+mkdir -vp /mnt/shared/scratch /home/$callingUser/scratch
 cat <<EOF | tee -a /etc/fstab
 192.168.0.16:/srv/shared	 /mnt/shared		nfs	    defaults,vers=4.1,proto=tcp,nofail,_netdev		0	0
 /mnt/shared/scratch			 /home/carl/scratch	none	bind                                            0   0
@@ -351,8 +352,8 @@ mount --verbose --all
 # Installing login scripts (~/.bashrc & .bash_aliases)
 #
 log "Replacing ~/.bashrc and .bash_aliases"
-rm -vf /home/$USER/.bash{rc,_aliases}
-cat <<EOF 1>/home/$USER/.bashrc
+rm -vf /home/$callingUser/.bash{rc,_aliases}
+cat <<EOF 1>/home/$callingUser/.bashrc
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -481,7 +482,7 @@ PATH="~/.local/usr/sbin:~/.local/sbin::~/.local/usr/bin:~/.local/bin:/usr/sbin:/
 
 IGNOREEOF=1
 EOF
-cat <<EOF 1>/home/$USER/.bash_aliases
+cat <<EOF 1>/home/$callingUser/.bash_aliases
 alias ll='ls -lAhtr --group-directories-first'
 alias histgrep='history | grep'
 alias sudo='sudo '
@@ -491,7 +492,7 @@ alias halt='sudo $(which alias)'
 alias poweroff='sudo $(which poweroff)'
 alias grep='grep --color'
 alias higrep='grep --color=always -e "^" -e '
-#alias trashboot='sudo /home/$USER/.local/usr/bin/trashboot.sh'
+#alias trashboot='sudo /home/$callingUser/.local/usr/bin/trashboot.sh'
 alias iptables='sudo $(which iptables)'
 
 function negrep(){
@@ -518,7 +519,7 @@ EOF
 # Create .gitconfig
 #
 log "Creating ~/.gitconfig"
-cat <<EOF 1>/home/$USER/.gitconfig
+cat <<EOF 1>/home/$callingUser/.gitconfig
 [user]
 	name = Carl McAlwane
 	email = carlmcalwane@hotmail.co.uk
