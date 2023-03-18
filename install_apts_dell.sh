@@ -30,6 +30,7 @@ log(){
 #
 log "Running: $scriptName.  Calling user is: $callingUser"
 read -n 1 -r -s -p $'Press enter to continue...\n'
+exit 1
 #
 # update apt
 #
