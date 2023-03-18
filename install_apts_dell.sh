@@ -18,9 +18,6 @@ scriptName=$(basename ${0})  # Script name
 callingUser=$(who am i | awk '{print $1}')
 [[ $scriptName =~ "bash" ]] && scriptName="install_apts_dell.sh"
 #
-log "Running: $scriptName.  Calling user is: $callingUser"
-read -n 1 -r -s -p $'Press enter to continue...\n'
-#
 # make apt-get non-interactive
 #
 export DEBIAN_FRONTEND=noninteractive 
@@ -30,6 +27,9 @@ export DEBIAN_FRONTEND=noninteractive
 log(){
   printf  "${LBLUE}%s:${NC} %s\n" $scriptName "${*}" 1>&2
 }
+#
+log "Running: $scriptName.  Calling user is: $callingUser"
+read -n 1 -r -s -p $'Press enter to continue...\n'
 #
 # update apt
 #
