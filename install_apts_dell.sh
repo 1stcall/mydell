@@ -7,51 +7,73 @@ set -o nounset
 set -o pipefail
 set -o noclobber
 #
+scrptName=${0}
+#
+# Basic logging to stderr
+#
+log(){
+  printf  "%s: %s\n" $scrptName "$(*)" 1>&2
+}
+#
 # update apt
 #
+log Running updating apt
 apt update || exit 1
 #
 # remove libre-office
+#
+log Removing libreoffice
 apt remove --purge --assume-yes libreoffice*
 #
 # install script dependencies
 #
+log Installing script dependencies gnupg debian-archive-keyring apt-transport-https wget
 apt install -y gnupg debian-archive-keyring apt-transport-https wget
 #
 # install sid sources lists
 #
+log Replacing bullseye sources list wi sid
 install -v -D -o root -g root -m 644 sid.list /etc/apt/sources.list
 #
 # upgrade to sid
+log Running upgrade to update packages
 apt upgrade -y
+log Running dist-upgrade
 apt dist-upgrade -y
 #
 # install code repo from microsoft
 #
+log Adding the microsoft repo and gpg key for vs code
 tmpdir=$(mktemp -d)
-
+#
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > $tmpdir/packages.microsoft.gpg
 install -v -D -o root -g root -m 644 $tmpdir/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
 echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
 	tee /etc/apt/sources.list.d/vscode.list
 rm -rf $tmpdir
+log Updating apt and installing code-insiders
 apt update && apt install -y code-insiders
 #
 # install bash utilities
 #
+log installing bash utilities and qemu. command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpm qemu-system-x86
+log qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools git fcitx5
 apt install -y command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpm qemu-system-x86 \
   qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools git fcitx5
 #
 # enable ssh server on boot
 #
+log Enabling ssh service 
 systemctl enable ssh --now
 #
 # update apt-file database for command-not-found
 #
+log Updating apt-file for command-not-found database
 apt-file update
 #
 # install edi reop from packagecloud
 #
+log Adding packagecloud repo and gpgkey for edi
 unknown_os ()
 {
   echo "Unfortunately, your operating system distribution and version are not supported by this script."
