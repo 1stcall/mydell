@@ -21,32 +21,38 @@ log(){
 #
 # update apt
 #
-log "Running apt update to update apt packages"
-apt update || exit 1
+log "Running apt-get update to update apt packages"
+apt-get update 1>/dev/null || exit 1
 #
 # remove libre-office
 #
 log "Removing libreoffice"
-apt remove --purge --assume-yes libreoffice*
+apt-get remove --purge --assume-yes libreoffice* 1>/dev/null
 #
 # autoremove any uneeded apts
 #
 log "Removing apts no longer required"
-apt autoremove -y
+apt-get autoremove -y 1>/dev/null
 #
 # install script dependencies
 #
 log "Installing script dependencies gnupg debian-archive-keyring apt-transport-https wget"
-apt install -y gnupg debian-archive-keyring apt-transport-https wget
+apt-get install -y gnupg debian-archive-keyring apt-transport-https wget 1>/dev/null
 #
 # install sid sources lists
 #
-log "Replacing bullseye sources list wi sid"
-install -v -D -o root -g root -m 644 sid.list /etc/apt/sources.list
+log "Replacing bullseye sources list with sid\'s"
+#install -v -D -o root -g root -m 644 sid.list /etc/apt/sources.list
+cat <<EOF > /etc/apt/sources.list
+# See https://wiki.debian.org/SourcesList for more information.
+deb http://deb.debian.org/debian sid main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian sid main contrib 
+EOF
 #
 # upgrade to sid
-log "Running apt dist-upgrade to update to sid\'s packages"
-apt update && apt dist-upgrade -y
+#
+log "Running apt-get dist-upgrade to update to sid\'s packages"
+apt-get update 1>/dev/null && apt-get dist-upgrade -y 1>/dev/null
 #
 # install code repo from microsoft
 #
@@ -55,19 +61,18 @@ tmpdir=$(mktemp -d)
 #
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > $tmpdir/packages.microsoft.gpg
 install -v -D -o root -g root -m 644 $tmpdir/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
-	tee /etc/apt/sources.list.d/vscode.list
+echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list
 rm -rf $tmpdir
 log "Updating apt and installing code-insiders"
-apt update && apt install -y code-insiders
+apt-get update 1>/dev/null && apt-get install -y code-insiders 1>/dev/null
 #
 # install bash utilities
 #
 log "installing utilities (command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpmn fcitx5 git)"
-apt install -y command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpm fcitx5 git
+apt-get install -y command-not-found bash-completion tmux openssh-server openssh-client nfs-common btrfs-progs ovmf swtpm fcitx5 git 1>/dev/null
 #
 log "installing emulation (qemu-system-x86 qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools)"
-apt install -y qemu-system-x86 qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools
+apt-get install -y qemu-system-x86 qemu-utils virt-manager libvirt-daemon virt-manager lxd lxd-tools 1>/dev/null
 #
 # enable ssh server on boot
 #
@@ -77,7 +82,7 @@ systemctl enable ssh --now
 # update apt-file database for command-not-found
 #
 log "Updating apt-file for command-not-found database"
-apt-file update
+apt-file update 1>/dev/null
 #
 # install edi reop from packagecloud
 #
@@ -200,10 +205,10 @@ detect_apt_version ()
 
 main ()
 {
-  detect_os
-  curl_check
-  gpg_check
-  detect_apt_version
+  detect_os || log "detact_os returned ${?}"
+  curl_check || log "detact_os returned ${?}"
+  gpg_check || log "detact_os returned ${?}"
+  detect_apt_version || log "detact_os returned ${?}"
 
   # Need to first run apt-get update so that apt-transport-https can be
   # installed
@@ -218,7 +223,6 @@ main ()
   echo -n "Installing apt-transport-https... "
   apt-get install -y apt-transport-https &> /dev/null
   echo "done."
-
 
   gpg_key_url="https://packagecloud.io/get-edi/debian/gpgkey"
   apt_config_url="https://packagecloud.io/install/repositories/get-edi/debian/config_file.list?os=${os}&dist=${dist}&source=script"
