@@ -30,7 +30,7 @@ log(){
 #
 set -x
 log "Running: $scriptName version: $VERSION  Calling user is: $callingUser"
-read -n 1 -r -s -p $'Press enter to continue...\n'
+read -n 1 -r -s -p $"Press enter to continue...\n"
 set +x
 exit 1
 #
