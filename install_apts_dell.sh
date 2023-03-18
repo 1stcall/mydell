@@ -16,7 +16,7 @@ scrptName=$(basename ${0})
 # Basic logging to stderr function
 #
 log(){
-  printf  "${LBLUE}%s:${NC} %s\n" $scrptName "$(*)" 1>&2
+  printf  "${LBLUE}%s:${NC} %s\n" $scrptName "${*}" 1>&2
 }
 #
 # update apt
