@@ -357,7 +357,7 @@ mount --verbose --all
 #
 log "Replacing ~/.bashrc and .bash_aliases"
 rm -vf /home/$userName/.bash{rc,_aliases}
-cat <<EOF 1>/home/$userName/.bashrc
+cat << _EOF > /home/$userName/.bashrc
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -485,8 +485,9 @@ fi
 PATH="~/.local/usr/sbin:~/.local/sbin::~/.local/usr/bin:~/.local/bin:/usr/sbin:/usr/bin:/sbin:/usr/sbin:$PATH"
 
 IGNOREEOF=1
-EOF
-cat <<EOF 1>/home/$userName/.bash_aliases
+_EOF
+
+cat << EOF > /home/$userName/.bash_aliases
 alias ll='ls -lAhtr --group-directories-first'
 alias histgrep='history | grep'
 alias sudo='sudo '
@@ -523,7 +524,7 @@ EOF
 # Create .gitconfig
 #
 log "Creating ~/.gitconfig"
-cat <<EOF 1>/home/$userName/.gitconfig
+cat << EOF >/home/$userName/.gitconfig
 [user]
 	name = Carl McAlwane
 	email = carlmcalwane@hotmail.co.uk
