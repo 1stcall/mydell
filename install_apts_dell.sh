@@ -28,11 +28,9 @@ log(){
   printf  "${LBLUE}%s:${NC} %s\n" $scriptName "${*}" 1>&2
 }
 #
-set -x
 log "Running: $scriptName version: $VERSION  Calling user is: $callingUser"
-read -n 1 -s -r -p "Press any key to continue"
-echo -E "\n"
-set +x
+sleep 5
+log "!!!! DEBUG ABORT !!!!"
 exit 1
 #
 # update apt
