@@ -28,8 +28,10 @@ log(){
   printf  "${LBLUE}%s:${NC} %s\n" $scriptName "${*}" 1>&2
 }
 #
+set -x
 log "Running: $scriptName version: $VERSION  Calling user is: $callingUser"
 read -n 1 -r -s -p $'Press enter to continue...\n'
+set +x
 exit 1
 #
 # update apt
