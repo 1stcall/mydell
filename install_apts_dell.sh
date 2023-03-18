@@ -337,12 +337,13 @@ apt-get autoremove -y
 # Add /mnt/shared to fstab and mount.
 #
 log "Creating mountpoint for shared files and adding it to fstab (/mnt/shared/)"
-mkdir -vp /mnt/shared/scratch
+mkdir -vp /mnt/shared/scratch /home/$USER/scratch
 cat <<EOF | tee -a /etc/fstab
 192.168.0.16:/srv/shared	 /mnt/shared		nfs	    defaults,vers=4.1,proto=tcp,nofail,_netdev		0	0
 /mnt/shared/scratch			 /home/carl/scratch	none	bind                                            0   0
 EOF
 log "Mounting mountpoint (mount --all)"
+systemctl daemon-reload
 mount --all
 #
 # Installing login scripts (~/.bashrc & .bash_aliases)
