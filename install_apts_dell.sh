@@ -13,6 +13,11 @@ LBLUE='\033[0;34m'
 NC='\033[0m'
 scrptName=$(basename ${0})
 #
+# make apt-get non-interactive
+#
+stoDEBIAN_FRONTEND=DEBIAN_FRONTEND
+export DEBIAN_FRONTEND=noninteractive 
+#
 # Basic logging to stderr function
 #
 log(){
@@ -324,4 +329,4 @@ apt install -y edi edi-boot-shim
 # autoremove any uneeded apts
 #
 apt autoremove -y
-
+DEBIAN_FRONTEND=$stoDEBIAN_FRONTEND
