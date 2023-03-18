@@ -28,7 +28,7 @@ log(){
   printf  "${LBLUE}%s:${NC} %s\n" $scriptName "${*}" 1>&2
 }
 #
-log "Running: $scriptName.  Calling user is: $callingUser"
+log "Running: $scriptName version: $VERSION  Calling user is: $callingUser"
 read -n 1 -r -s -p $'Press enter to continue...\n'
 exit 1
 #
