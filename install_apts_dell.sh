@@ -67,7 +67,9 @@ tmpdir=$(mktemp -d)
 #
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > $tmpdir/packages.microsoft.gpg
 install -v -D -o root -g root -m 644 $tmpdir/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list || log "vscode.list already exists"
+echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] \
+  https://packages.microsoft.com/repos/code stable main" > \
+  /etc/apt/sources.list.d/vscode.list || log "vscode.list already exists"
 rm -rvf $tmpdir
 log "Updating apt and installing code-insiders"
 apt-get update 1>/dev/null && apt-get install -y code-insiders 1>/dev/null
@@ -242,6 +244,7 @@ main ()
   echo -n "Installing $apt_source_path..."
 
   # create an apt config file for this repository
+  rm -fv $apt_source_path
   curl -sSf "${apt_config_url}" > $apt_source_path
   curl_exit_code=$?
 
